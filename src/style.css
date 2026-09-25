@@ -52,6 +52,18 @@ h2 { display: flex; align-items: center; gap: 8px; font-size: 1rem; margin: 0; }
 h2 .icon { color: var(--brand); }
 .hint { font-size: 0.85rem; color: var(--muted); }
 
+/* Intro */
+.intro h2 { margin-bottom: 10px; }
+.intro p { margin: 0 0 10px; line-height: 1.5; }
+.privacy {
+  display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+  color: var(--ok); background: var(--payment-soft); padding: 8px 12px; border-radius: 8px;
+}
+.howto { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
+.howto summary { cursor: pointer; font-weight: 600; color: var(--brand); }
+.howto ol { margin: 10px 0 0; padding-left: 22px; line-height: 1.7; }
+.howto a { color: var(--brand); }
+
 /* Upload */
 .dropzone {
   display: flex; align-items: center; gap: 14px; padding: 18px;

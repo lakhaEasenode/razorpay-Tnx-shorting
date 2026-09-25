@@ -1,7 +1,6 @@
 # Easexpense Transaction Processor
 
-Internal tool: upload one combined Razorpay CSV and download four generated CSV files.
-Everything runs in the browser; the file is never uploaded to a server.
+Internal tool: turns Razorpay's Combined Report into journal-ready CSV files for Zoho Books.
 
 ```sh
 npm install

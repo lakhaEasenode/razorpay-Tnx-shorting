@@ -18,6 +18,36 @@
     </header>
 
     <main>
+      <section class="card intro">
+        <h2><span data-icon="info"></span>About this tool</h2>
+        <p>
+          Turns Razorpay's <strong>Combined Report</strong> into journal-ready CSV files for
+          <strong>Zoho Books</strong>. Each payment is split into two entries: the payment
+          (gross amount, credit) and the Razorpay fee (debit). Settlements and refunds are kept
+          as single entries. Pick a date range and download.
+        </p>
+        <p class="privacy">
+          <span data-icon="lock"></span>
+          Your file is processed in this browser only. It is never uploaded to any server.
+        </p>
+
+        <details id="howto" class="howto" open>
+          <summary>How to get the CSV from Razorpay</summary>
+          <ol>
+            <li>Log in to your <strong>Razorpay Dashboard</strong>.</li>
+            <li>
+              Open <strong>Reports</strong>:
+              <a href="https://dashboard.razorpay.com/app/reports" target="_blank" rel="noopener noreferrer">dashboard.razorpay.com/app/reports</a>
+            </li>
+            <li>Under <strong>Transactions</strong>, select <strong>Combined Report</strong>.</li>
+            <li>Click <strong>Download Report</strong> and choose the <strong>duration</strong> you need.</li>
+            <li>Go to the <strong>Downloads</strong> section and download the <strong>latest</strong> report.</li>
+            <li>If it downloads as a <strong>.zip</strong>, unzip it first to get the <strong>.csv</strong> file.</li>
+            <li>Upload the CSV below and click <strong>Process file</strong>.</li>
+          </ol>
+        </details>
+      </section>
+
       <section class="card">
         <label id="dropzone" class="dropzone">
           <input id="file" type="file" accept=".csv,text/csv" />

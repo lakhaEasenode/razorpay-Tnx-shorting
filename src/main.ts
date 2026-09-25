@@ -184,6 +184,8 @@ $('range-reset').onclick = () => {
 };
 
 function renderDone(msg: Extract<WorkerMessage, { type: 'done' }>) {
+  // Instructions are no longer needed once a file has been processed; they can be reopened.
+  $<HTMLDetailsElement>('howto').open = false;
   $('total').textContent = msg.totalRows.toLocaleString();
   $('processed').textContent = msg.processedRows.toLocaleString();
   $('errors').textContent = msg.errorCount.toLocaleString();
