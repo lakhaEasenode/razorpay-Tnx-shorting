@@ -8,7 +8,19 @@ npm install
 npm run dev      # http://localhost:5173
 npm test
 npm run build    # static site in dist/
+npm run preview  # serve the build at http://localhost:4173/razorpay-Tnx-shorting/
 ```
+
+## Hosting (GitHub Pages)
+
+Live at **https://lakhaeasenode.github.io/razorpay-Tnx-shorting/**.
+
+`.github/workflows/deploy.yml` runs on every push to `main`: install → test → build → deploy.
+A failing test blocks the deploy. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+
+The build is served from `/razorpay-Tnx-shorting/` (`base` in `vite.config.ts`); rename the repo
+and that value must change too. The site is public, but uploaded CSVs are processed only in the
+viewer's browser and are never sent anywhere.
 
 ## Layout
 
