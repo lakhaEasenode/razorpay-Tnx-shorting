@@ -42,6 +42,17 @@ Every output works from journal lines, where exactly one of debit / credit carri
 - **settlement, refund, other types** → one line with the source debit / credit;
   rejected as an error if both are non-zero or either is not a number
 
+## Results screen
+
+- Rows in file, processed rows, errors.
+- **Date range picker**: From / To default to the earliest and latest journal line `date` and
+  cannot go outside them. Counts and every download (except `row_errors.csv`, which always covers
+  the whole file) are limited to the selected range, inclusive. Downloaded file names carry the
+  range, e.g. `unassigned_rows_01-04-2026_to_30-04-2026.csv`. A payment and its fee share a date,
+  so they are always included together.
+- Line counts in the selected range: Payments, Fees, Refunds, Settlements (plus any other
+  Razorpay type found) and total journal lines.
+
 ## Data integrity
 
 - All values are kept as strings; no number coercion.

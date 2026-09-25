@@ -1,14 +1,17 @@
-import type { RowError } from './processing/pipeline';
+import type { DateRange, RowError } from './processing/pipeline';
 
-export type WorkerRequest = { file: File };
+export type WorkerRequest =
+  | { type: 'process'; file: File }
+  /** Counts for a date range (inclusive yyyy-MM-dd keys). */
+  | { type: 'summarize'; range: DateRange }
+  /** CSV for one file, limited to a date range. */
+  | { type: 'export'; fileId: string; range: DateRange };
 
-export interface GeneratedFile {
+export interface FileInfo {
   id: string;
   label: string;
   configured: boolean;
   fileName: string;
-  rowCount: number;
-  csv: string;
 }
 
 export type WorkerMessage =
@@ -19,9 +22,22 @@ export type WorkerMessage =
       type: 'done';
       totalRows: number;
       processedRows: number;
-      journalLines: number;
+      dateRange: DateRange | null;
+      /** First 200 errors; the full list is in the error report download. */
       errors: RowError[];
-      files: GeneratedFile[];
-      unassigned: GeneratedFile;
-      errorReport: GeneratedFile;
-    };
+      errorCount: number;
+      files: FileInfo[];
+    }
+  | {
+      type: 'summary';
+      range: DateRange;
+      journalLines: number;
+      byCategory: Record<string, number>;
+      /** Rows per file id within the range. */
+      fileRows: Record<string, number>;
+    }
+  | { type: 'export'; fileId: string; csv: string };
+
+/** Review files that exist alongside the four outputs. */
+export const UNASSIGNED_ID = 'unassigned';
+export const ERRORS_ID = 'errors';

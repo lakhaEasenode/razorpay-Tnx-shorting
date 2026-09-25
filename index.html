@@ -7,35 +7,68 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" data-icon="logo"></span>
+        <div>
+          <div class="brand-name">Easexpense</div>
+          <div class="brand-sub">Razorpay Transaction Processor</div>
+        </div>
+      </div>
+    </header>
+
     <main>
-      <h1>Easexpense Transaction Processor</h1>
-
-      <section>
-        <h2>Upload Razorpay CSV</h2>
-        <input id="file" type="file" accept=".csv,text/csv" />
-        <p id="selected" class="muted"></p>
-        <button id="process" disabled>Process File</button>
-        <progress id="progress" max="100" value="0" hidden></progress>
+      <section class="card">
+        <label id="dropzone" class="dropzone">
+          <input id="file" type="file" accept=".csv,text/csv" />
+          <span class="dz-icon" data-icon="upload"></span>
+          <span>
+            <span id="dz-title" class="dz-title">Choose Razorpay CSV</span>
+            <span id="dz-sub" class="dz-sub">or drag and drop it here</span>
+          </span>
+        </label>
+        <div class="actions">
+          <button id="process" class="primary" disabled>Process file</button>
+        </div>
+        <div id="progress" class="progress" hidden><div id="progress-bar"></div></div>
       </section>
 
-      <section id="message" hidden></section>
+      <div id="message" hidden></div>
 
-      <section id="result" hidden>
-        <h2>Processing Result</h2>
-        <dl class="stats">
-          <div><dt>Total transactions</dt><dd id="total"></dd></div>
-          <div><dt>Successfully processed</dt><dd id="processed"></dd></div>
-          <div><dt>Journal lines</dt><dd id="lines"></dd></div>
-          <div><dt>Errors</dt><dd id="errors"></dd></div>
-        </dl>
+      <div id="result" hidden>
+        <section class="card">
+          <div class="summary">
+            <div class="stat"><span data-icon="rows"></span><div><dd id="total"></dd><dt>Rows in file</dt></div></div>
+            <div class="stat ok"><span data-icon="check"></span><div><dd id="processed"></dd><dt>Processed</dt></div></div>
+            <div id="errors-stat" class="stat"><span data-icon="alert"></span><div><dd id="errors"></dd><dt>Errors</dt></div></div>
+          </div>
+        </section>
 
-        <h2>Generated Files</h2>
-        <ul id="files" class="files"></ul>
+        <section id="range-section" class="card">
+          <div class="card-head">
+            <h2><span data-icon="calendar"></span>Date range</h2>
+            <span id="range-full" class="hint"></span>
+          </div>
+          <div class="range-picker">
+            <label>From <input id="range-from" type="date" /></label>
+            <label>To <input id="range-to" type="date" /></label>
+            <button id="range-reset" class="ghost">Full range</button>
+          </div>
+          <p id="range-error" class="field-error" hidden></p>
+          <div id="categories" class="categories"></div>
+        </section>
 
-        <h2>Review</h2>
-        <ul id="review" class="files"></ul>
-        <div id="error-list"></div>
-      </section>
+        <section class="card">
+          <div class="card-head"><h2><span data-icon="download"></span>Downloads</h2></div>
+          <ul id="files" class="files"></ul>
+          <ul id="review" class="files"></ul>
+        </section>
+
+        <section id="error-card" class="card" hidden>
+          <div class="card-head"><h2><span data-icon="alert"></span>Row errors</h2></div>
+          <div id="error-list"></div>
+        </section>
+      </div>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

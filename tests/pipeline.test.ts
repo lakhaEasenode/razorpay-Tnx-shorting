@@ -13,13 +13,31 @@ describe('createProcessor', () => {
     const r = p.finish();
     expect(r.totalRows).toBe(2);
     expect(r.processedRows).toBe(2);
-    expect(r.journalLines).toBe(3);
+    expect(r.lines).toEqual([
+      { dateKey: '2026-04-02', category: 'payment' },
+      { dateKey: '2026-04-02', category: 'fee' },
+      { dateKey: '2026-04-02', category: 'settlement' },
+    ]);
     expect(r.outputs.every((o) => o.rows.length === 0)).toBe(true);
-    expect(r.unassigned.map((u) => [u.entity_id, u.line])).toEqual([
+    expect(r.unassigned.map((u) => [u.row.entity_id, u.row.line])).toEqual([
       ['pay_1', 'payment'],
       ['pay_1', 'fee'],
       ['setl_1', 'entry'],
     ]);
+  });
+
+  it('reports the earliest and latest date across months and years', () => {
+    const p = createProcessor(OUTPUTS);
+    const row = (id: string, created_at: string) => ({ entity_id: id, type: 'refund', debit: '1', credit: '0', created_at });
+    p.addRow(row('a', '15/04/2026 10:00:00'), 1);
+    p.addRow(row('b', '28/12/2025 10:00:00'), 2);
+    p.addRow(row('c', '02/05/2026 10:00:00'), 3);
+    p.addRow(row('d', '31/01/2026 10:00:00'), 4);
+    expect(p.finish().dateRange).toEqual({ from: '2025-12-28', to: '2026-05-02' });
+  });
+
+  it('has no date range when nothing was processed', () => {
+    expect(createProcessor(OUTPUTS).finish().dateRange).toBeNull();
   });
 
   it('reports rows that fail journal checks as errors', () => {
@@ -27,7 +45,7 @@ describe('createProcessor', () => {
     p.addRow({ entity_id: 'x', type: 'refund', debit: '1', credit: '1', created_at: D }, 4);
     const r = p.finish();
     expect(r.errors).toEqual([{ rowNumber: 4, entityId: 'x', message: 'both debit (1) and credit (1) are non-zero' }]);
-    expect(r.journalLines).toBe(0);
+    expect(r.lines).toHaveLength(0);
   });
 
   it('counts rows with parse errors and excludes them from outputs', () => {
@@ -50,7 +68,7 @@ describe('createProcessor', () => {
     p.addRow({ created_at: D, entity_id: 'b', type: 'refund', debit: '1', credit: '0' }, 2);
     p.addRow({ created_at: D, entity_id: 'c', type: 'settlement', debit: '1', credit: '0' }, 3);
     const r = p.finish();
-    expect(r.outputs[0]!.rows).toEqual([{ ref: 'a' }, { ref: 'c' }]);
-    expect(r.unassigned.map((u) => u.entity_id)).toEqual(['b']);
+    expect(r.outputs[0]!.rows.map((d) => d.row)).toEqual([{ ref: 'a' }, { ref: 'c' }]);
+    expect(r.unassigned.map((u) => u.row.entity_id)).toEqual(['b']);
   });
 });
