@@ -1,0 +1,4 @@
+node_modules
+dist
+# Razorpay exports contain customer payment data; never commit them
+*.csv

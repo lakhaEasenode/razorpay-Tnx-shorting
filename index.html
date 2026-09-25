@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easexpense Transaction Processor</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Easexpense Transaction Processor</h1>
+
+      <section>
+        <h2>Upload Razorpay CSV</h2>
+        <input id="file" type="file" accept=".csv,text/csv" />
+        <p id="selected" class="muted"></p>
+        <button id="process" disabled>Process File</button>
+        <progress id="progress" max="100" value="0" hidden></progress>
+      </section>
+
+      <section id="message" hidden></section>
+
+      <section id="result" hidden>
+        <h2>Processing Result</h2>
+        <dl class="stats">
+          <div><dt>Total transactions</dt><dd id="total"></dd></div>
+          <div><dt>Successfully processed</dt><dd id="processed"></dd></div>
+          <div><dt>Journal lines</dt><dd id="lines"></dd></div>
+          <div><dt>Errors</dt><dd id="errors"></dd></div>
+        </dl>
+
+        <h2>Generated Files</h2>
+        <ul id="files" class="files"></ul>
+
+        <h2>Review</h2>
+        <ul id="review" class="files"></ul>
+        <div id="error-list"></div>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
